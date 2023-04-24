@@ -1,16 +1,25 @@
 <div align="center">
   <img alt="am logo" src="https://gw.alipayobjects.com/zos/bmw-prod/3ee4adc7-1960-4dbf-982e-522ac135a0c0.svg" width="250" >
-  <h1 align="center">Antchain Bridge Plugin Server</h1>
+  <h1 align="center">AntChain Bridge Plugin Server</h1>
   <p align="center">
     <a href="http://makeapullrequest.com">
       <img alt="pull requests welcome badge" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat">
+    </a>
+    <a href="https://www.java.com">
+      <img alt="Language" src="https://img.shields.io/badge/Language-Java-blue.svg?style=flat">
+    </a>
+    <a href="https://github.com/AntChainOpenLab/AntChainBridgePluginServer/graphs/contributors">
+      <img alt="GitHub contributors" src="https://img.shields.io/github/contributors/AntChainOpenLab/AntChainBridgePluginServer">
+    </a>
+    <a href="https://www.apache.org/licenses/LICENSE-2.0">
+      <img alt="License" src="https://img.shields.io/github/license/AntChainOpenLab/AntChainBridgePluginServer?style=flat">
     </a>
   </p>
 </div>
 
 # Introduction
 
-Antchain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、完成与中继通信的工作。
+AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、完成与中继通信的工作。
 
 - **插件管理能力**
 
@@ -26,7 +35,7 @@ Antchain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、
 
 **以下插件BCOS和插件ChainMaker均为展示用例，代表不同的异构插件实现*
 
-<img src="https://intranetproxy.alipay.com/skylark/lark/0/2023/jpeg/13456461/1677744080321-3622114c-52c2-432c-9ceb-0f3d07c290e4.jpeg" style="zoom:33%;" />
+<img src="https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/1677744080321-3622114c-52c2-432c-9ceb-0f3d07c290e4.jpeg" style="zoom:33%;"  alt=""/>
 
 # Get Started
 
@@ -151,3 +160,6 @@ mvn test
 
 敬请期待
 
+# License
+
+详情参考[LICENSE](./LICENSE)。
