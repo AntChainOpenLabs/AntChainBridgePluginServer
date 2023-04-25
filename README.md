@@ -1,5 +1,5 @@
 <div align="center">
-  <img alt="am logo" src="https://gw.alipayobjects.com/zos/bmw-prod/3ee4adc7-1960-4dbf-982e-522ac135a0c0.svg" width="250" >
+  <img alt="am logo" src="https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/antchain.png" width="250" >
   <h1 align="center">AntChain Bridge Plugin Server</h1>
   <p align="center">
     <a href="http://makeapullrequest.com">
@@ -17,7 +17,7 @@
   </p>
 </div>
 
-# Introduction
+# 介绍
 
 AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、完成与中继通信的工作。
 
@@ -29,7 +29,7 @@ AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、
 
   将PS注册到一个中继之后，PS会作为一个RPC Server为中继提供服务，PS和中继之间会建立双向认证的TLS连接，确保身份互认和安全性，中继会发送请求要求PS完成BBC对象初始化等工作，并调用BBC的接口，完成与异构链的交互。
 
-# Architecture
+# 架构
 
 下面介绍了中继服务的整体架构。
 
@@ -37,9 +37,9 @@ AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、
 
 <img src="https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/1677744080321-3622114c-52c2-432c-9ceb-0f3d07c290e4.jpeg" style="zoom:33%;"  alt=""/>
 
-# Get Started
+# 快速开始
 
-## Build
+## 构建
 
 进入代码的根目录，运行mvn编译即可：
 
@@ -47,14 +47,14 @@ AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、
 mvn clean package
 ```
 
-产生的安装包在`ps-bootstrap/target/plugin-server-0.1.0-SNAPSHOT.tar.gz`。
+产生的安装包在`ps-bootstrap/target/plugin-server-0.1.2-SNAPSHOT.tar.gz`。
 
-## Configuration
+## 配置
 
-在获得安装包之后，执行解压缩操作，这里以`plugin-server-0.1.0-SNAPSHOT.tar.gz`为例。
+在获得安装包之后，执行解压缩操作，这里以`plugin-server-0.1.2-SNAPSHOT.tar.gz`为例。
 
 ```
-tar -zxf plugin-server-0.1.0-SNAPSHOT.tar.gz
+tar -zxf plugin-server-0.1.2-SNAPSHOT.tar.gz
 ```
 
 进入解压后的目录，可以看到：
@@ -72,7 +72,7 @@ tree .
 ├── config
 │   └── application.yml
 └── lib
-    └── ps-bootstrap-0.1.0-SNAPSHOT.jar
+    └── ps-bootstrap-0.1.2-SNAPSHOT.jar
 
 
 3 directories, 7 files
@@ -122,7 +122,7 @@ pluginserver:
 
 将您的插件都放到这个路径下即可。
 
-## Run
+## 运行
 
 在解压包根目录之下，运行一下命令即可：
 
@@ -148,7 +148,7 @@ pluginserver:
 
 日志文件存储在`log`目录之下。
 
-## Run Test
+## 运行测试
 
 在运行测试之前，请使用`ps-bootstrap/src/main/resources/scripts/init_tls_certs.sh`生成证书，并将`server.key`和`server.crt` 放到`ps-bootstrap/src/test/resources`之下，运行下述命令即可运行测试用例：
 
@@ -156,9 +156,28 @@ pluginserver:
 mvn test
 ```
 
-# CLI Usage
+# CLI
 
-敬请期待
+*我们将在不久之后提供一个CLI工具，用于管理插件服务。*
+
+
+# 社区治理
+
+AntChain Bridge 欢迎您以任何形式参与社区建设。
+
+您可以通过以下方式参与社区讨论
+
+- 钉钉
+
+![scan dingding](https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/dingding.png)
+
+- 微信
+
+![scan_wechat](https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/wechat.png)
+
+- 邮件
+
+发送邮件到`antchainbridge@service.alipay.com`
 
 # License
 
