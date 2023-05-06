@@ -171,10 +171,6 @@ AntChain Bridge 欢迎您以任何形式参与社区建设。
 
 ![scan dingding](https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/dingding.png)
 
-- 微信
-
-![scan_wechat](https://antchainbridge.oss-cn-shanghai.aliyuncs.com/antchainbridge/document/picture/wechat.png)
-
 - 邮件
 
 发送邮件到`antchainbridge@service.alipay.com`
