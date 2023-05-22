@@ -166,9 +166,15 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
      * </pre>
      */
     public void hasPlugins(HasPluginsRequest request, StreamObserver<ManageResponse> responseObserver) {
-        responseObserver.onNext(ResponseBuilder.buildHasPluginsResp(HasPluginsResp.newBuilder()
-                    .putAllResults(request.getProductsList().stream().distinct().collect(Collectors.toMap(p -> p, p -> pluginManagerWrapper.hasPlugin(p))))
-            )
+        responseObserver.onNext(
+                ResponseBuilder.buildHasPluginsResp(
+                        HasPluginsResp.newBuilder()
+                                .putAllResults(
+                                        request.getProductsList().stream()
+                                                .distinct()
+                                                .collect(Collectors.toMap(p -> p, p -> pluginManagerWrapper.hasPlugin(p)))
+                                )
+                )
         );
         responseObserver.onCompleted();
     }
