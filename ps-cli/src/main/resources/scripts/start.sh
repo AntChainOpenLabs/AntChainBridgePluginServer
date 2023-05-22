@@ -21,7 +21,7 @@ Help=$(cat <<-"HELP"
    start.sh -h
   2. identify the port number to start CLI
    start.sh -p 9091
-  2. identify the server IP to start CLI
+  3. identify the server IP to start CLI
    start.sh -H 0.0.0.0
 
  Options:
@@ -40,10 +40,10 @@ do
       exit 0
       ;;
     "H")
-      HOST_IP="${OPTARG:-0.0.0.0}"
+      HOST_IP="${OPTARG}"
       ;;
     "p")
-      PORT="${OPTARG:-9090}"
+      PORT=${OPTARG}
 	    ;;
     "?")
       echo "invalid arguments. "
@@ -58,4 +58,4 @@ done
 
 JAR_FILE=`ls ${CLI_HOME}/../lib`
 
-java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p $PORT -H $HOST_IP
+java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p ${PORT:-9090} -H ${HOST_IP:-0.0.0.0}
