@@ -28,9 +28,12 @@ pluginserver:
     # where to load the hetero-chain plugins
     repo: ./plugins
     policy:
+      # limit actions of the plugin classloader
       classloader:
         resource:
           ban-with-prefix:
+            # the plugin classloader will not read the resource file starting with the prefix below
             APPLICATION: "META-INF/services/io.grpc."
   managerserver:
+    host: localhost
     port: 9091

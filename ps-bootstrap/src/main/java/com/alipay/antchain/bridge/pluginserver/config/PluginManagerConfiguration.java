@@ -17,6 +17,7 @@
 package com.alipay.antchain.bridge.pluginserver.config;
 
 import cn.hutool.core.collection.ListUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alipay.antchain.bridge.pluginserver.pluginmanager.IPluginManagerWrapper;
 import com.alipay.antchain.bridge.pluginserver.pluginmanager.PluginManagerWrapperImpl;
 import com.alipay.antchain.bridge.pluginserver.server.PluginManagementServiceImpl;
@@ -24,11 +25,14 @@ import io.grpc.Server;
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.pf4j.ClassLoadingStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -42,6 +46,9 @@ public class PluginManagerConfiguration {
 
     @Value("${pluginserver.plugin.policy.classloader.resource.ban-with-prefix.APPLICATION}")
     private String[] resourceBannedPrefixOnAppLevel;
+
+    @Value("${pluginserver.managerserver.host}")
+    private String managementHost;
 
     @Bean
     public IPluginManagerWrapper pluginManagerWrapper() {
@@ -66,10 +73,14 @@ public class PluginManagerConfiguration {
     private String pluginServerMgrPort;
 
     @Bean
-    public Server pluginMgrServer() throws IOException {
+    public Server pluginMgrServer(@Autowired PluginManagementServiceImpl pluginManagementService) throws IOException {
         log.info("Starting plugin managing server on port " + pluginServerMgrPort);
-        return NettyServerBuilder.forPort(Integer.parseInt(pluginServerMgrPort))
-                .addService(new PluginManagementServiceImpl())
+        return NettyServerBuilder.forAddress(
+                        new InetSocketAddress(
+                                StrUtil.isEmpty(managementHost) ? InetAddress.getLoopbackAddress() : InetAddress.getByName(managementHost),
+                                Integer.parseInt(pluginServerMgrPort)
+                        )
+                ).addService(pluginManagementService)
                 .build()
                 .start();
     }
