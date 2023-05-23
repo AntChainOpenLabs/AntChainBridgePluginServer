@@ -80,6 +80,8 @@ public enum ServerErrorCodeEnum {
 
     MANAGE_RELOAD_PLUGIN_IN_NEW_PATH_ERROR(308, "[manage] reload plugin in new path failed"),
 
+    MANAGE_RESTART_BBC_ERROR(309, "[manage] restart bbc failed"),
+
     UNKNOWN_ERROR(100, "unknow error");
 
     /**
