@@ -158,7 +158,7 @@ mvn test
 
 # CLI
 
-*我们将在不久之后提供一个CLI工具，用于管理插件服务。*
+CLI工具在[v0.2.0](https://github.com/AntChainOpenLab/AntChainBridgePluginServer/releases/tag/v0.2.0)版本已经发布，相关教程请参考[文档](https://github.com/AntChainOpenLab/AntChainBridgePluginServer/blob/main/ps-cli/README.md)。
 
 
 # 社区治理
