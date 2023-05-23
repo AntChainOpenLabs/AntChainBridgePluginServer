@@ -58,4 +58,4 @@ done
 
 JAR_FILE=`ls ${CLI_HOME}/../lib`
 
-java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p ${PORT:-9090} -H ${HOST_IP:-0.0.0.0}
+java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p ${PORT:-9091} -H ${HOST_IP:-0.0.0.0}
