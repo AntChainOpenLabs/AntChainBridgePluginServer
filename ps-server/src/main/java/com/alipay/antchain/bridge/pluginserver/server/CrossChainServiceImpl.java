@@ -33,11 +33,12 @@ import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
+import javax.annotation.Resource;
 
 @GrpcService
 @Slf4j
 public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServiceImplBase {
-    @Autowired
+    @Resource
     private IPluginManagerWrapper pluginManagerWrapper;
 
     @Override

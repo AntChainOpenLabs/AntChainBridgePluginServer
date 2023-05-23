@@ -45,6 +45,11 @@ message HasDomainsRequest{
 message AllDomainsRequest{
 }
 
+message RestartBBCRequest {
+  string product = 1;
+  string domain = 2;
+}
+
 message ManageResponse {
   uint32 code = 1;
   string errorMsg = 2;
@@ -54,6 +59,7 @@ message ManageResponse {
     AllPluginsResp allPluginsResp = 5;
     HasDomainsResp hasDomainsResp = 6;
     AllDomainsResp allDomainsResp = 7;
+    RestartBBCResp restartBBCResp = 8;
   }
 }
 
@@ -81,6 +87,9 @@ message AllDomainsResp {
   repeated string domains = 1;
 }
 
+message RestartBBCResp {
+}
+
 service ManagementService {
 
   // maintenance personnel may invoke this interface to load, unload, start, and stop plugins
@@ -97,4 +106,7 @@ service ManagementService {
 
   // return domains of all running chains
   rpc allDomains(AllDomainsRequest) returns (ManageResponse) {}
+
+  // restart the bbc service object from the current plugin files
+  rpc restartBBC(RestartBBCRequest) returns (ManageResponse) {}
 }

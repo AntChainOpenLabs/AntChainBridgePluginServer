@@ -121,6 +121,15 @@ public class ResponseBuilder {
                 .setAllDomainsResp(respBuilder).build();
     }
 
+    public static ManageResponse buildRestartBBCResp(RestartBBCResp.Builder respBuilder) {
+        log.debug("restart bbc service success");
+        return ManageResponse.newBuilder()
+                .setCode(ServerErrorCodeEnum.SUCCESS.getErrorCode())
+                .setErrorMsg(ServerErrorCodeEnum.SUCCESS.getShortMsg())
+                .setRestartBBCResp(respBuilder)
+                .build();
+    }
+
     public static ManageResponse buildFailManageResp(ServerErrorCodeEnum errorCodeEnum) {
 
         return ManageResponse.newBuilder()

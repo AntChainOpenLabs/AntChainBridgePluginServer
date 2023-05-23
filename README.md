@@ -47,14 +47,14 @@ AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、
 mvn clean package
 ```
 
-产生的安装包在`ps-bootstrap/target/plugin-server-0.1.2-SNAPSHOT.tar.gz`。
+产生的安装包在`ps-bootstrap/target/plugin-server-x.x.x.tar.gz`。
 
 ## 配置
 
-在获得安装包之后，执行解压缩操作，这里以`plugin-server-0.1.2-SNAPSHOT.tar.gz`为例。
+在获得安装包之后，执行解压缩操作，这里以`plugin-server-x.x.x.tar.gz`为例。
 
 ```
-tar -zxf plugin-server-0.1.2-SNAPSHOT.tar.gz
+tar -zxf plugin-server-x.x.x.tar.gz
 ```
 
 进入解压后的目录，可以看到：
@@ -72,7 +72,7 @@ tree .
 ├── config
 │   └── application.yml
 └── lib
-    └── ps-bootstrap-0.1.2-SNAPSHOT.jar
+    └── ps-bootstrap-x.x.x.jar
 
 
 3 directories, 7 files
