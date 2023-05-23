@@ -28,7 +28,6 @@ import com.alipay.antchain.bridge.pluginserver.cli.command.NamespaceManager;
 import com.alipay.antchain.bridge.pluginserver.cli.core.ManagementGrpcClient;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReader.Option;
-import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.impl.history.DefaultHistory;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -53,7 +52,7 @@ public class Shell {
 
     private final ShellProvider shellProvider;
 
-    public final static Runtime Runtime = new Runtime();
+    public final static Runtime RUNTIME = new Runtime();
 
     public Shell(ShellProvider shellProvider, PromptCompleter completer, ManagementGrpcClient grpcClient,
                  NamespaceManager namespaceManager) {
@@ -71,7 +70,7 @@ public class Shell {
         reader.setCompleter(completer);
 
         // 运行时设置
-        Runtime.setGrpcClient(grpcClient);
+        RUNTIME.setGrpcClient(grpcClient);
     }
 
     void init() {
@@ -85,7 +84,7 @@ public class Shell {
         }
 
         // set printer
-        Runtime.setPrinter(terminal.writer());
+        RUNTIME.setPrinter(terminal.writer());
 
         // init linereader
         reader = new GlLineReader(terminal, "mychain-gl", new HashMap<>());
@@ -134,14 +133,14 @@ public class Shell {
                             String result = this.shellProvider.execute(cmd);
                             if (null != result) {
                                 if (result.startsWith("{") || result.startsWith("[")) {
-                                    Runtime.getPrinter().println(JsonUtil.format(result));
+                                    RUNTIME.getPrinter().println(JsonUtil.format(result));
                                 } else {
-                                    Runtime.getPrinter().println(result);
+                                    RUNTIME.getPrinter().println(result);
                                 }
 
                             }
                         } catch (Exception e) {
-                            Runtime.getPrinter().println("shell evaluate fail:" + e.getMessage());
+                            RUNTIME.getPrinter().println("shell evaluate fail:" + e.getMessage());
                         }
                     }
                 }, "shell_thread").start();
@@ -160,8 +159,8 @@ public class Shell {
 
         loopRunning.set(false);
         try {
-            if (null != Runtime.getGrpcClient()) {
-                Runtime.getGrpcClient().shutdown();
+            if (null != RUNTIME.getGrpcClient()) {
+                RUNTIME.getGrpcClient().shutdown();
             }
         } catch (InterruptedException e) {
             // not process
@@ -178,11 +177,11 @@ public class Shell {
     }
 
     protected void help() {
-        Runtime.getPrinter().print(namespaceManager.dump());
+        RUNTIME.getPrinter().print(namespaceManager.dump());
     }
 
     protected void welcome() {
-        Runtime.printer.println(
+        RUNTIME.printer.println(
                 "    ___            __   ______ __            _           ____         _      __\n" +
                 "   /   |   ____   / /_ / ____// /_   ____ _ (_)____     / __ ) _____ (_)____/ /____ _ ___\n" +
                 "  / /| |  / __ \\ / __// /    / __ \\ / __ `// // __ \\   / __  |/ ___// // __  // __ `// _ \\\n" +
@@ -191,7 +190,7 @@ public class Shell {
                 "                                                                            /____/        \n" +
                 "                          PLUGIN SERVER CLI " + Launcher.getVersion()
         );
-        Runtime.printer.println("\n>>> type help to see all commands...");
+        RUNTIME.printer.println("\n>>> type help to see all commands...");
     }
 
     public static class Runtime {

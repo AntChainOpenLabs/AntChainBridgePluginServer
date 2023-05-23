@@ -116,6 +116,6 @@ public class PluginManagerWrapperImpl implements IPluginManagerWrapper {
 
     @Override
     public List<String> allRunningDomains() {
-        return manager.allRunningDomains().stream().map(d -> d.toString()).collect(Collectors.toList());
+        return manager.allRunningDomains().stream().map(CrossChainDomain::toString).collect(Collectors.toList());
     }
 }

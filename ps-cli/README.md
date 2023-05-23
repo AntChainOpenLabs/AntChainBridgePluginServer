@@ -115,6 +115,29 @@ ps>
 ps> manage.reloadPluginInNewPath("simple-ethereum", "path/to/new/simple-ethereum-bbc-0.1-SNAPSHOT-plugin.jar")
 ```
 
+#### 重启BBC实例
+
+场景：当中继请求插件服务为某条链启动BBC实例之后，插件服务会从插件中读取相关Class，创建BBC实例，而更新了插件代码，经过插件的reload之后，需要重启BBC实例，才可以使用更新之后的代码提供服务。
+
+命令：`manage.restartBBC(String product, String domain)`
+
+参数：参数`product`为插件中设置的区块链类型；参数`domain`是你想让插件服务重新创建的BBC实例；
+
+```
+    ___            __   ______ __            _           ____         _      __
+   /   |   ____   / /_ / ____// /_   ____ _ (_)____     / __ ) _____ (_)____/ /____ _ ___
+  / /| |  / __ \ / __// /    / __ \ / __ `// // __ \   / __  |/ ___// // __  // __ `// _ \
+ / ___ | / / / // /_ / /___ / / / // /_/ // // / / /  / /_/ // /   / // /_/ // /_/ //  __/
+/_/  |_|/_/ /_/ \__/ \____//_/ /_/ \__,_//_//_/ /_/  /_____//_/   /_/ \__,_/ \__, / \___/
+                                                                            /____/
+                          PLUGIN SERVER CLI 0.2.0
+
+>>> type help to see all commands...
+ps>
+ps> manage.restartBBC("simple-ethereum", "domainA.eth.org")
+success
+```
+
 #### 加载新插件
 
 场景：让插件服务，加载一个新插件，插件的类型和ID必须没有被加载过。
@@ -294,4 +317,3 @@ ps> manage.hasDomains("chaina", "chainb")
 }
 ```
 
-#### 

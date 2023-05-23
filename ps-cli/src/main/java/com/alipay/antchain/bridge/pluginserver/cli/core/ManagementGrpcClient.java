@@ -117,4 +117,17 @@ public class ManagementGrpcClient {
 
         return CollUtil.join(response.getAllDomainsResp().getDomainsList(), ", ");
     }
+
+    public String restartBBC(String product, String domain) {
+        ManageResponse response = this.blockingStub.restartBBC(
+                RestartBBCRequest.newBuilder()
+                        .setProduct(product)
+                        .setDomain(domain)
+                        .build()
+        );
+        if (response.getCode() != 0) {
+            return "failed with msg: " + response.getErrorMsg();
+        }
+        return "success";
+    }
 }

@@ -16,6 +16,8 @@
 
 package com.alipay.antchain.bridge.pluginserver.server;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.alipay.antchain.bridge.plugins.spi.bbc.IBBCService;
 import com.alipay.antchain.bridge.pluginserver.managementservice.*;
 import com.alipay.antchain.bridge.pluginserver.pluginmanager.IPluginManagerWrapper;
 import com.alipay.antchain.bridge.pluginserver.server.exception.ServerErrorCodeEnum;
@@ -165,6 +167,7 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
      * return whether the plugins of the products are supported
      * </pre>
      */
+    @Override
     public void hasPlugins(HasPluginsRequest request, StreamObserver<ManageResponse> responseObserver) {
         responseObserver.onNext(
                 ResponseBuilder.buildHasPluginsResp(
@@ -184,6 +187,7 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
      * return all supported plugin products
      * </pre>
      */
+    @Override
     public void allPlugins(AllPluginsRequest request, StreamObserver<ManageResponse> responseObserver) {
         responseObserver.onNext(
                 ResponseBuilder.buildAllPluginsResp(
@@ -198,6 +202,7 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
      * return whether the chains of the domains are running
      * </pre>
      */
+    @Override
     public void hasDomains(HasDomainsRequest request, StreamObserver<ManageResponse> responseObserver) {
         responseObserver.onNext(ResponseBuilder.buildHasDomainsResp(HasDomainsResp.newBuilder()
                         .putAllResults(request.getDomainsList().stream().distinct().collect(Collectors.toMap(d -> d, d -> pluginManagerWrapper.hasDomain(d))))
@@ -211,6 +216,7 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
      * return domains of all running chains
      * </pre>
      */
+    @Override
     public void allDomains(AllDomainsRequest request, StreamObserver<ManageResponse> responseObserver) {
         responseObserver.onNext(
                 ResponseBuilder.buildAllDomainsResp(
@@ -220,4 +226,42 @@ public class PluginManagementServiceImpl extends ManagementServiceGrpc.Managemen
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void restartBBC(RestartBBCRequest request, StreamObserver<ManageResponse> responseObserver) {
+        if (!pluginManagerWrapper.hasPlugin(request.getProduct())) {
+            responseObserver.onNext(
+                    ResponseBuilder.buildFailManageResp(ServerErrorCodeEnum.MANAGE_RESTART_BBC_ERROR, "product not found")
+            );
+            responseObserver.onCompleted();
+            return;
+        }
+        if (!pluginManagerWrapper.hasDomain(request.getDomain())) {
+            responseObserver.onNext(
+                    ResponseBuilder.buildFailManageResp(ServerErrorCodeEnum.MANAGE_RESTART_BBC_ERROR, "domain not found")
+            );
+            responseObserver.onCompleted();
+            return;
+        }
+        try {
+            IBBCService oldBbcService = pluginManagerWrapper.getBBCService(request.getProduct(), request.getDomain());
+            if (ObjectUtil.isNull(oldBbcService)) {
+                throw new RuntimeException("null BBC service for domain " + request.getDomain());
+            }
+            IBBCService newBbcService = pluginManagerWrapper.createBBCService(request.getProduct(), request.getDomain());
+            newBbcService.startup(oldBbcService.getContext());
+        } catch (Exception e) {
+            log.error("restartBBC fail [errorCode: {}, errorMsg: {}]",
+                    ServerErrorCodeEnum.MANAGE_RESTART_BBC_ERROR.getErrorCode(),
+                    ServerErrorCodeEnum.MANAGE_RESTART_BBC_ERROR.getShortMsg(), e);
+            responseObserver.onNext(
+                    ResponseBuilder.buildFailManageResp(ServerErrorCodeEnum.MANAGE_RESTART_BBC_ERROR, "UNKNOWN")
+            );
+            responseObserver.onCompleted();
+            return;
+        }
+        responseObserver.onNext(
+                ResponseBuilder.buildRestartBBCResp(RestartBBCResp.newBuilder())
+        );
+        responseObserver.onCompleted();
+    }
 }

@@ -88,4 +88,11 @@ public class ManagementCommandNamespace extends GroovyScriptCommandNamespace {
     Object allDomains() {
         return queryAPI("allDomains");
     }
+
+    Object restartBBC(
+            @ArgsConstraint(name = "product") String product,
+            @ArgsConstraint(name = "domain") String domain
+    ) {
+        return queryAPI("restartBBC", product, domain);
+    }
 }

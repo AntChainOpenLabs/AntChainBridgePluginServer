@@ -112,12 +112,12 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
 
         switch (command) {
             case "loadPlugins":
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.LOAD_PLUGINS,
                         "", ""
                 );
             case "startPlugins":
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.START_PLUGINS,
                         "", ""
                 );
@@ -125,7 +125,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 1) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.RELOAD_PLUGIN,
                         args[0], ""
                 );
@@ -133,7 +133,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 2) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.RELOAD_PLUGIN_IN_NEW_PATH,
                         args[0], args[1]
                 );
@@ -141,7 +141,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 1) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.START_PLUGIN,
                         "", args[0]
                 );
@@ -149,7 +149,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 1) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.STOP_PLUGIN,
                         args[0], ""
                 );
@@ -157,7 +157,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 1) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.LOAD_PLUGIN,
                         "", args[0]
                 );
@@ -165,7 +165,7 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length != 1) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().managePlugin(
+                return Shell.RUNTIME.getGrpcClient().managePlugin(
                         PluginManageRequest.Type.START_PLUGIN_FROM_STOP,
                         args[0], ""
                 );
@@ -173,28 +173,33 @@ public abstract class GroovyScriptCommandNamespace extends CommandNamespaceImpl 
                 if (args.length == 0) {
                     return "zero arguments";
                 }
-                return Shell.Runtime.getGrpcClient().hasPlugins(ListUtil.toList(args));
+                return Shell.RUNTIME.getGrpcClient().hasPlugins(ListUtil.toList(args));
             case "allPlugins":
                 if (args.length != 0) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().getAllPlugins();
+                return Shell.RUNTIME.getGrpcClient().getAllPlugins();
             case "hasDomains":
                 if (args.length == 0) {
                     return "zero arguments";
                 }
-                return Shell.Runtime.getGrpcClient().hasDomains(ListUtil.toList(args));
+                return Shell.RUNTIME.getGrpcClient().hasDomains(ListUtil.toList(args));
             case "allDomains":
                 if (args.length != 0) {
                     return "wrong length of arguments";
                 }
-                return Shell.Runtime.getGrpcClient().getAllDomains();
+                return Shell.RUNTIME.getGrpcClient().getAllDomains();
+            case "restartBBC":
+                if (args.length != 2) {
+                    return "wrong length of arguments";
+                }
+                return Shell.RUNTIME.getGrpcClient().restartBBC(args[0], args[1]);
             default:
                 return "wrong command " + command;
         }
     }
 
     protected void print(String result) {
-        Shell.Runtime.getPrinter().println(result);
+        Shell.RUNTIME.getPrinter().println(result);
     }
 }
