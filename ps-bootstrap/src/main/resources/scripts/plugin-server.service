@@ -22,6 +22,7 @@ StartLimitIntervalSec=0
 ExecStart=@@START_CMD@@
 Restart=always
 RestartSec=5
+WorkingDirectory=@@WORKING_DIR@@
 
 [Install]
 WantedBy=multi-user.target

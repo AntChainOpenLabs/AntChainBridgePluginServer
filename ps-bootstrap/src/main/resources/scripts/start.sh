@@ -88,8 +88,13 @@ if [ "$IF_SYS_MODE" == "on" ]; then
     exit 1
   fi
   START_CMD="${JAVA_BIN} -jar -Dlogging.file.path=${CURR_DIR}/../log ${CURR_DIR}/../lib/${JAR_FILE} --spring.config.location=file:${CURR_DIR}/../config/application.yml"
+  WORK_DIR="$(
+    cd ${CURR_DIR}/..
+    pwd
+  )"
 
   sed -i -e "s#@@START_CMD@@#${START_CMD}#g" ${CURR_DIR}/plugin-server.service
+  sed -i -e "s#@@WORKING_DIR@@#${WORK_DIR}#g" ${CURR_DIR}/plugin-server.service
 
   cp -f ${CURR_DIR}/plugin-server.service /usr/lib/systemd/system/
   if [ $? -ne 0 ]; then
@@ -97,8 +102,7 @@ if [ "$IF_SYS_MODE" == "on" ]; then
     exit 1
   fi
 
-  systemctl daemon-reload
-  systemctl enable plugin-server.service
+  systemctl daemon-reload && systemctl enable plugin-server.service
   if [ $? -ne 0 ]; then
     log_error "failed to enable plugin-server.service"
     exit 1
@@ -114,6 +118,7 @@ else
   log_info "running in app mode"
   log_info "start plugin-server now..."
 
+  cd ${CURR_DIR}/..
   java -jar -Dlogging.file.path=${CURR_DIR}/../log ${CURR_DIR}/../lib/${JAR_FILE} --spring.config.location=file:${CURR_DIR}/../config/application.yml >/dev/null 2>&1 &
   if [ $? -ne 0 ]; then
     log_error "failed to start plugin-server"
