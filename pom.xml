@@ -32,7 +32,7 @@
         <groovy.version>3.0.17</groovy.version>
         <commons-cli.version>1.5.0</commons-cli.version>
         <hutool.version>5.8.10</hutool.version>
-        <fastjson.version>2.0.21</fastjson.version>
+        <fastjson.version>1.2.83_noneautotype</fastjson.version>
         <pf4j.version>3.8.0</pf4j.version>
         <slf4j.version>1.7.28</slf4j.version>
     </properties>
