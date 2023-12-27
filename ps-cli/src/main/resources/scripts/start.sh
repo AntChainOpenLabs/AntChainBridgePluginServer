@@ -27,7 +27,7 @@ Help=$(cat <<-"HELP"
  Options:
    -h         print help info
    -p         identify the port number to start CLI, default 9091
-   -H         identify the server IP to start CLI, default 0.0.0.0
+   -H         identify the server IP to start CLI, default 127.0.0.1
 
 HELP
 )
@@ -58,4 +58,4 @@ done
 
 JAR_FILE=`ls ${CLI_HOME}/../lib`
 
-java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p ${PORT:-9091} -H ${HOST_IP:-0.0.0.0}
+java -jar ${CLI_HOME}/../lib/${JAR_FILE} -p ${PORT:-9091} -H ${HOST_IP:-127.0.0.1}

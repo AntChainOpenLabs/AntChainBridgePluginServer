@@ -66,16 +66,17 @@ tree .
 ├── README.md
 ├── bin
 │   ├── init_tls_certs.sh
+│   ├── plugin-server.service
 │   ├── print.sh
 │   ├── start.sh
 │   └── stop.sh
 ├── config
 │   └── application.yml
 └── lib
-    └── ps-bootstrap-x.x.x.jar
+    └── ps-bootstrap-x.x.x.jar
 
 
-3 directories, 7 files
+3 directories, 8 files
 ```
 
 首先，初始化PS的TLS秘钥和证书，该脚本将会在项目根目录下创建文件夹`certs`，下面存储了私钥`server.key`、证书`server.crt`、信任的证书`trust.crt`。
@@ -123,6 +124,59 @@ pluginserver:
 将您的插件都放到这个路径下即可。
 
 ## 运行
+
+### 作为系统服务运行
+
+在解压包根目录之下，可以找到`start.sh`脚本。
+
+如下可以打印帮助信息：
+
+```
+./bin/start.sh -h
+
+ start.sh — Start the plugin server
+
+ Usage:
+   start.sh <params>
+
+ Examples:
+  1. start in system service mode：
+   start.sh -s
+  2. start in application mode:
+   start.sh
+
+ Options:
+   -s         run in system service mode.
+   -h         print help information.
+```
+
+运行如下命令，会自动将插件服务启动为系统服务：
+
+```
+./bin/start.sh -s
+```
+
+看到下面的输出即启动成功：
+
+```
+    ___            __   ______ __            _           ____         _      __
+   /   |   ____   / /_ / ____// /_   ____ _ (_)____     / __ ) _____ (_)____/ /____ _ ___
+  / /| |  / __ \ / __// /    / __ \ / __ `// // __ \   / __  |/ ___// // __  // __ `// _ \
+ / ___ | / / / // /_ / /___ / / / // /_/ // // / / /  / /_/ // /   / // /_/ // /_/ //  __/
+/_/  |_|/_/ /_/ \__/ \____//_/ /_/ \__,_//_//_/ /_/  /_____//_/   /_/ \__,_/ \__, / \___/
+                                                                            /____/        
+
+[ INFO ]_[ 2023-06-20 20:57:06.168 ] : running in system service mode
+[ INFO ]_[ 2023-06-20 20:57:06.168 ] : plugin-server started successfully
+```
+
+可以通过下面命令查看系统服务状态：
+
+```
+systemctl status plugin-server.service
+```
+
+### 作为普通进程运行
 
 在解压包根目录之下，运行一下命令即可：
 

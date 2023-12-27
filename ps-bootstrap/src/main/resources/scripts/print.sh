@@ -1,3 +1,19 @@
+#
+# Copyright 2023 Ant Group
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -23,26 +39,26 @@ function print_hint() {
 }
 
 function log_info() {
-  NOW=`date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23`
-  INFO_PREFIX=`printf "${GREEN}\033[4m[ INFO ]${NC}"`
+  NOW=$(date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23)
+  INFO_PREFIX=$(printf "${GREEN}\033[4m[ INFO ]${NC}")
 
-  INFO=`printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1"`
+  INFO=$(printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1")
   echo "${INFO_PREFIX}${INFO}"
 }
 
 function log_warn() {
-  NOW=`date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23`
-  WARN_PREFIX=`printf "${YELLOW}\033[4m[ WARN ]${NC}"`
+  NOW=$(date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23)
+  WARN_PREFIX=$(printf "${YELLOW}\033[4m[ WARN ]${NC}")
 
-  INFO=`printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1"`
+  INFO=$(printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1")
   echo "${WARN_PREFIX}${INFO}"
 }
 
 function log_error() {
-  NOW=`date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23`
-  ERROR_PREFIX=`printf "${RED}\033[4m[ ERROR ]${NC}"`
+  NOW=$(date "+%Y-%m-%d %H:%M:%S.%s" | cut -b 1-23)
+  ERROR_PREFIX=$(printf "${RED}\033[4m[ ERROR ]${NC}")
 
-  INFO=`printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1"`
+  INFO=$(printf "_${LIGHT_GRAY}[ %s ]${NC} : %s" "${NOW}" "$1")
   echo "${ERROR_PREFIX}${INFO}"
 }
 

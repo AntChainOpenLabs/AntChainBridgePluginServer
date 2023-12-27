@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.alipay.antchain.bridge</groupId>
         <artifactId>antchain-bridge-pluginserver</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
     </parent>
 
     <artifactId>ps-bootstrap</artifactId>
@@ -35,6 +35,7 @@
                 <includes>
                     <include>**/application.yml</include>
                     <include>**/*.xml</include>
+                    <include>**/banner.txt</include>
                 </includes>
                 <!-- 是否替换@xx@表示的maven properties属性值 -->
                 <filtering>true</filtering>
