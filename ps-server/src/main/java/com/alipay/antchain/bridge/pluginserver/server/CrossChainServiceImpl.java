@@ -16,6 +16,9 @@
 
 package com.alipay.antchain.bridge.pluginserver.server;
 
+import java.util.stream.Collectors;
+import javax.annotation.Resource;
+
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alipay.antchain.bridge.commons.bbc.AbstractBBCContext;
@@ -30,10 +33,6 @@ import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.stream.Collectors;
-import javax.annotation.Resource;
 
 @GrpcService
 @Slf4j
@@ -343,12 +342,14 @@ public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServi
                                                     .setProvableData(ProvableLedgerData.newBuilder()
                                                             .setHeight(m.getProvableData().getHeight())
                                                             .setLedgerData(ByteString.copyFrom(
-                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getLedgerData(), new byte[]{})
-                                                            )).setProof(ByteString.copyFrom(
-                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getProof(), new byte[]{})
-                                                            )).setBlockHash(ByteString.copyFrom(
-                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getBlockHash(), new byte[]{})
-                                                            )).setTimestamp(m.getProvableData().getTimestamp())
+                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getLedgerData(), new byte[]{})))
+                                                            .setProof(ByteString.copyFrom(
+                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getProof(), new byte[]{})))
+                                                            .setBlockHash(ByteString.copyFrom(
+                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getBlockHash(), new byte[]{})))
+                                                            .setTimestamp(m.getProvableData().getTimestamp())
+                                                            .setTxHash(ByteString.copyFrom(
+                                                                    ObjectUtil.defaultIfNull(m.getProvableData().getTxHash(), new byte[]{})))
                                                     ).build()
                                             ).collect(Collectors.toList())
                             )

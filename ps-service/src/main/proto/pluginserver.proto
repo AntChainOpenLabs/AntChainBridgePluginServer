@@ -164,6 +164,7 @@ message ProvableLedgerData {
   uint64 timestamp = 3;
   bytes ledgerData = 4;
   bytes proof = 5;
+  bytes txHash = 6;
 }
 
 message CrossChainMessage {

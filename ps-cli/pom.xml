@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.alipay.antchain.bridge</groupId>
         <artifactId>antchain-bridge-pluginserver</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
     </parent>
 
     <artifactId>ps-cli</artifactId>
