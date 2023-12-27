@@ -66,16 +66,17 @@ tree .
 ├── README.md
 ├── bin
 │   ├── init_tls_certs.sh
+│   ├── plugin-server.service
 │   ├── print.sh
 │   ├── start.sh
 │   └── stop.sh
 ├── config
 │   └── application.yml
 └── lib
-    └── ps-bootstrap-x.x.x.jar
+    └── ps-bootstrap-x.x.x.jar
 
 
-3 directories, 7 files
+3 directories, 8 files
 ```
 
 首先，初始化PS的TLS秘钥和证书，该脚本将会在项目根目录下创建文件夹`certs`，下面存储了私钥`server.key`、证书`server.crt`、信任的证书`trust.crt`。
