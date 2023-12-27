@@ -1,5 +1,3 @@
-#!/bin/bash
-
 #
 # Copyright 2023 Ant Group
 #
@@ -16,20 +14,15 @@
 # limitations under the License.
 #
 
-CURR_DIR="$(
-  cd $(dirname $0)
-  pwd
-)"
-source ${CURR_DIR}/print.sh
+[Unit]
+Description=start shell script
+StartLimitIntervalSec=0
 
-print_title
+[Service]
+ExecStart=@@START_CMD@@
+Restart=always
+RestartSec=5
+WorkingDirectory=@@WORKING_DIR@@
 
-log_info "stop plugin-server now..."
-
-ps -ewf | grep -e "ps-bootstrap.*\.jar" | grep -v grep | awk '{print $2}' | xargs kill
-if [ $? -ne 0 ]; then
-  log_error "failed to stop plugin-server"
-  exit 1
-fi
-
-log_info "plugin-server stopped successfully"
+[Install]
+WantedBy=multi-user.target

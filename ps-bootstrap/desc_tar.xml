@@ -19,6 +19,7 @@
             <outputDirectory>${file.separator}bin</outputDirectory>
             <includes>
                 <include>*.sh</include>
+                <include>plugin-server.service</include>
             </includes>
         </fileSet>
         <fileSet>
