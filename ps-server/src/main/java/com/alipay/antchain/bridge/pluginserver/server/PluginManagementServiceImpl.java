@@ -16,6 +16,10 @@
 
 package com.alipay.antchain.bridge.pluginserver.server;
 
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import javax.annotation.Resource;
+
 import cn.hutool.core.util.ObjectUtil;
 import com.alipay.antchain.bridge.plugins.spi.bbc.IBBCService;
 import com.alipay.antchain.bridge.pluginserver.managementservice.*;
@@ -23,16 +27,13 @@ import com.alipay.antchain.bridge.pluginserver.pluginmanager.IPluginManagerWrapp
 import com.alipay.antchain.bridge.pluginserver.server.exception.ServerErrorCodeEnum;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Comparator;
-import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 public class PluginManagementServiceImpl extends ManagementServiceGrpc.ManagementServiceImplBase {
-    @Autowired
+
+    @Resource
     private IPluginManagerWrapper pluginManagerWrapper;
 
     /**

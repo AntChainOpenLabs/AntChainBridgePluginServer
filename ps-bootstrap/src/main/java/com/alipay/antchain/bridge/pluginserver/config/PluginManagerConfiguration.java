@@ -16,58 +16,26 @@
 
 package com.alipay.antchain.bridge.pluginserver.config;
 
-import cn.hutool.core.collection.ListUtil;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+
 import cn.hutool.core.util.StrUtil;
-import com.alipay.antchain.bridge.pluginserver.pluginmanager.IPluginManagerWrapper;
-import com.alipay.antchain.bridge.pluginserver.pluginmanager.PluginManagerWrapperImpl;
 import com.alipay.antchain.bridge.pluginserver.server.PluginManagementServiceImpl;
 import io.grpc.Server;
 import io.grpc.netty.shaded.io.grpc.netty.NettyServerBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.pf4j.ClassLoadingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 @Configuration
 @Slf4j
 public class PluginManagerConfiguration {
-    @Value("${pluginserver.plugin.repo}")
-    private String pluginPath;
 
-    @Value("${pluginserver.plugin.policy.classloader.resource.ban-with-prefix.APPLICATION}")
-    private String[] resourceBannedPrefixOnAppLevel;
-
-    @Value("${pluginserver.managerserver.host}")
+    @Value("${pluginserver.managerserver.host:localhost}")
     private String managementHost;
-
-    @Bean
-    public IPluginManagerWrapper pluginManagerWrapper() {
-        return new PluginManagerWrapperImpl(
-                pluginPath,
-                convertPathPrefixBannedMap(resourceBannedPrefixOnAppLevel)
-        );
-    }
-
-    private Map<ClassLoadingStrategy.Source, Set<String>> convertPathPrefixBannedMap(
-            String[] resourceBannedPrefixOnAppLevel
-    ) {
-        Map<ClassLoadingStrategy.Source, Set<String>> result = new HashMap<>();
-
-        Set<String> appSet = new HashSet<>(ListUtil.of(resourceBannedPrefixOnAppLevel));
-        result.put(ClassLoadingStrategy.Source.APPLICATION, appSet);
-
-        return result;
-    }
 
     @Value("${pluginserver.managerserver.port}")
     private String pluginServerMgrPort;
