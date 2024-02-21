@@ -28,13 +28,14 @@ import com.alipay.antchain.bridge.commons.core.base.CrossChainMessageReceipt;
 import com.alipay.antchain.bridge.plugins.spi.bbc.IBBCService;
 import com.alipay.antchain.bridge.pluginserver.pluginmanager.IPluginManagerWrapper;
 import com.alipay.antchain.bridge.pluginserver.server.exception.ServerErrorCodeEnum;
+import com.alipay.antchain.bridge.pluginserver.server.interceptor.RequestTraceInterceptor;
 import com.alipay.antchain.bridge.pluginserver.service.*;
 import com.google.protobuf.ByteString;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
 
-@GrpcService
+@GrpcService(interceptors = RequestTraceInterceptor.class)
 @Slf4j
 public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServiceImplBase {
     @Resource
@@ -42,7 +43,6 @@ public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServi
 
     @Override
     public void heartbeat(Empty request, StreamObserver<Response> responseObserver) {
-        log.info("heartbeat from relayer");
         responseObserver.onNext(
                 ResponseBuilder.buildHeartbeatSuccessResp(
                         HeartbeatResponse.newBuilder()
@@ -79,12 +79,6 @@ public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServi
     public void bbcCall(CallBBCRequest request, StreamObserver<Response> responseObserver) {
         String product = request.getProduct();
         String domain = request.getDomain();
-        if (CallBBCRequest.RequestCase.QUERYLATESTHEIGHTREQ == request.getRequestCase()) {
-            log.debug("BBCCall [product: {}, domain: {}, request: {}]", product, domain, request.getRequestCase());
-        } else {
-            log.info("BBCCall [product: {}, domain: {}, request: {}]", product, domain, request.getRequestCase());
-        }
-
         Response resp;
 
         // 1. Startup request needs to be handled separately， because it may need create a service first.
