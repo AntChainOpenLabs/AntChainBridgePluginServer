@@ -202,6 +202,24 @@ systemctl status plugin-server.service
 
 日志文件存储在`log`目录之下。
 
+## 插件
+
+将你的插件放在配置`pluginserver.plugin.repo`的路径之下，然后启动插件服务即可加载所有插件。
+
+插件运行中使用`BBCLogger`打印的日志，比如[这里](https://github.com/AntChainOpenLabs/AntChainBridgePluginSDK/blob/604c5b97305ee77cfa1e14454f5b99f1f905f6ea/pluginset/ethereum/offchain-plugin/src/main/java/com/alipay/antchain/bridge/plugins/ethereum/EthereumBBCService.java#L74)，插件服务将会按照插件的`product`和BBCService对象的`domain`，打印到不同文件`logs/bbc/${product}/${domain}`，比如下面`product`为`simple-ethereum`和域名为`domainB`的日志文件。
+
+```
+logs/
+├── antchain-bridge-pluginserver
+│   ├── application.log
+│   └── error.log
+└── bbc
+    └── simple-ethereum
+        └── domainB.log
+
+3 directories, 3 files
+```
+
 ## 运行测试
 
 在运行测试之前，请使用`ps-bootstrap/src/main/resources/scripts/init_tls_certs.sh`生成证书，并将`server.key`和`server.crt` 放到`ps-bootstrap/src/test/resources`之下，运行下述命令即可运行测试用例：
