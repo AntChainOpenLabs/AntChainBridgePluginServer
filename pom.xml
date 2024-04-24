@@ -53,7 +53,7 @@
 
     <groupId>com.alipay.antchain.bridge</groupId>
     <artifactId>antchain-bridge-pluginserver</artifactId>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
 
     <name>antchain-bridge-pluginserver</name>
     <description>antchain-bridge-pluginserver</description>
