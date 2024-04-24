@@ -29,6 +29,16 @@
         <dependency>
             <groupId>com.alipay.antchain.bridge</groupId>
             <artifactId>antchain-bridge-commons</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.bitfactory</groupId>
+                    <artifactId>bid-sdk</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>cn.bitfactory</groupId>
+                    <artifactId>bif-chain-sdk</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.alipay.antchain.bridge</groupId>
