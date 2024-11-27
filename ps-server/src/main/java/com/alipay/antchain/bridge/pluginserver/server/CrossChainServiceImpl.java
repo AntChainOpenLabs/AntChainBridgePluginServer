@@ -115,48 +115,59 @@ public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServi
             return;
         }
 
-        // 3. Other bbc requests handler.
-        switch (request.getRequestCase()){
-            case SHUTDOWNREQ:
-                resp = handleShutDown(bbcService, product, domain);
-                break;
-            case GETCONTEXTREQ:
-                resp = handleGetContext(bbcService, product, domain);
-                break;
-            case SETUPSDPMESSAGECONTRACTREQ:
-                resp = handleSetupSDPMessageContract(bbcService, product, domain);
-                break;
-            case SETUPAUTHMESSAGECONTRACTREQ:
-                resp = handleSetupAuthMessageContract(bbcService, product, domain);
-                break;
-            case SETPROTOCOLREQ:
-                resp = handleSetProtocol(bbcService, request.getSetProtocolReq(), product, domain);
-                break;
-            case SETAMCONTRACTREQ:
-                resp = handleSetAmContract(bbcService, request.getSetAmContractReq(), product, domain);
-                break;
-            case RELAYAUTHMESSAGEREQ:
-                resp = handleRelayAuthMessage(bbcService, request.getRelayAuthMessageReq(), product, domain);
-                break;
-            case READCROSSCHAINMESSAGERECEIPTREQ:
-                resp = handleReadCrossChainMessageReceiptRequest(bbcService, request.getReadCrossChainMessageReceiptReq(), product, domain);
-                break;
-            case READCROSSCHAINMESSAGESBYHEIGHTREQ:
-                resp = handleReadCrossChainMessagesByHeight(bbcService, request.getReadCrossChainMessagesByHeightReq(), product, domain);
-                break;
-            case QUERYSDPMESSAGESEQREQ:
-                resp = handleQuerySDPMessageSeq(bbcService, request.getQuerySDPMessageSeqReq(), product, domain);
-                break;
-            case QUERYLATESTHEIGHTREQ:
-                resp = handleQueryLatestHeight(bbcService, product, domain);
-                break;
-            case SETLOCALDOMAINREQ:
-                resp = handleSetLocalDomain(bbcService, request.getSetLocalDomainReq(), product, domain);
-                break;
-            default:
-                log.error("BBCCall fail [product: {}, domain: {}, request: {}, errorCode: {}, errorMsg: {}]", product, domain, request.getRequestCase(), ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR.getErrorCode(), ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR.getShortMsg());
-                resp = ResponseBuilder.buildFailResp(ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR);
-                break;
+        try {
+            // 3. Other bbc requests handler.
+            switch (request.getRequestCase()) {
+                case SHUTDOWNREQ:
+                    resp = handleShutDown(bbcService, product, domain);
+                    break;
+                case GETCONTEXTREQ:
+                    resp = handleGetContext(bbcService, product, domain);
+                    break;
+                case SETUPSDPMESSAGECONTRACTREQ:
+                    resp = handleSetupSDPMessageContract(bbcService, product, domain);
+                    break;
+                case SETUPAUTHMESSAGECONTRACTREQ:
+                    resp = handleSetupAuthMessageContract(bbcService, product, domain);
+                    break;
+                case SETPROTOCOLREQ:
+                    resp = handleSetProtocol(bbcService, request.getSetProtocolReq(), product, domain);
+                    break;
+                case SETAMCONTRACTREQ:
+                    resp = handleSetAmContract(bbcService, request.getSetAmContractReq(), product, domain);
+                    break;
+                case RELAYAUTHMESSAGEREQ:
+                    resp = handleRelayAuthMessage(bbcService, request.getRelayAuthMessageReq(), product, domain);
+                    break;
+                case READCROSSCHAINMESSAGERECEIPTREQ:
+                    resp = handleReadCrossChainMessageReceiptRequest(bbcService, request.getReadCrossChainMessageReceiptReq(), product, domain);
+                    break;
+                case READCROSSCHAINMESSAGESBYHEIGHTREQ:
+                    resp = handleReadCrossChainMessagesByHeight(bbcService, request.getReadCrossChainMessagesByHeightReq(), product, domain);
+                    break;
+                case QUERYSDPMESSAGESEQREQ:
+                    resp = handleQuerySDPMessageSeq(bbcService, request.getQuerySDPMessageSeqReq(), product, domain);
+                    break;
+                case QUERYLATESTHEIGHTREQ:
+                    resp = handleQueryLatestHeight(bbcService, product, domain);
+                    break;
+                case SETLOCALDOMAINREQ:
+                    resp = handleSetLocalDomain(bbcService, request.getSetLocalDomainReq(), product, domain);
+                    break;
+                default:
+                    log.error("BBCCall fail [product: {}, domain: {}, request: {}, errorCode: {}, errorMsg: {}]", product, domain, request.getRequestCase(), ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR.getErrorCode(), ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR.getShortMsg());
+                    resp = ResponseBuilder.buildFailResp(ServerErrorCodeEnum.UNSUPPORT_BBC_REQUEST_ERROR);
+                    break;
+            }
+        } catch (Error e) {
+            log.error(
+                    "BBCCall has internal error [product: {}, domain: {}, request: {}]",
+                    product,
+                    domain,
+                    request.getRequestCase(),
+                    e
+            );
+            resp = ResponseBuilder.buildFailResp(ServerErrorCodeEnum.UNKNOWN_ERROR);
         }
 
         responseObserver.onNext(resp);
@@ -167,35 +178,35 @@ public class CrossChainServiceImpl extends CrossChainServiceGrpc.CrossChainServi
         IBBCService bbcService;
 
         // 1. get service
-        if(pluginManagerWrapper.hasDomain(domain)){
+        if (pluginManagerWrapper.hasDomain(domain)) {
             log.info("get service for blockchain ( product: {} , domain: {} )", product, domain);
             try {
                 bbcService = pluginManagerWrapper.getBBCService(product, domain);
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.error("BBCCall(handleStartUp) fail [product: {}, domain: {}, errorCode: {}, errorMsg: {}]", product, domain, ServerErrorCodeEnum.BBC_GET_SERVICE_ERROR.getErrorCode(), ServerErrorCodeEnum.BBC_GET_SERVICE_ERROR.getShortMsg(), e);
                 return ResponseBuilder.buildFailResp(ServerErrorCodeEnum.BBC_GET_SERVICE_ERROR, e.toString());
             }
         } else {
             log.info("create service for blockchain ( product: {} , domain: {} )", product, domain);
-            try{
+            try {
                 bbcService = pluginManagerWrapper.createBBCService(product, domain);
-            } catch (Exception e){
-                log.error("BBCCall(handleStartUp) fail [product: {}, domain: {}, errorCode: {}, errorMsg: {}]", product, domain, ServerErrorCodeEnum.BBC_CREATE_ERROR.getErrorCode(), ServerErrorCodeEnum.BBC_CREATE_ERROR.getShortMsg(), e);
-                return ResponseBuilder.buildFailResp(ServerErrorCodeEnum.BBC_CREATE_ERROR, e.toString());
+            } catch (Throwable t) {
+                log.error("BBCCall(handleStartUp) fail [product: {}, domain: {}, errorCode: {}, errorMsg: {}]", product, domain, ServerErrorCodeEnum.BBC_CREATE_ERROR.getErrorCode(), ServerErrorCodeEnum.BBC_CREATE_ERROR.getShortMsg(), t);
+                return ResponseBuilder.buildFailResp(ServerErrorCodeEnum.BBC_CREATE_ERROR, t.toString());
             }
         }
 
         log.info("startup service for blockchain ( product: {} , domain: {} )", product, domain);
         // 2. start service
-        try{
+        try {
             DefaultBBCContext ctx = new DefaultBBCContext();
             ctx.decodeFromBytes(request.getRawContext().toByteArray());
             bbcService.startup(ctx);
 
             return ResponseBuilder.buildBBCSuccessResp(CallBBCResponse.newBuilder());
-        } catch (Exception e){
-            log.error("BBCCall(handleStartUp) fail [product: {}, domain: {}, errorCode: {}, errorMsg: {}]", product, domain, ServerErrorCodeEnum.BBC_STARTUP_ERROR.getErrorCode(), ServerErrorCodeEnum.BBC_STARTUP_ERROR.getShortMsg(), e);
-            return ResponseBuilder.buildFailResp(ServerErrorCodeEnum.BBC_STARTUP_ERROR, e.toString());
+        } catch (Throwable t) {
+            log.error("BBCCall(handleStartUp) fail [product: {}, domain: {}, errorCode: {}, errorMsg: {}]", product, domain, ServerErrorCodeEnum.BBC_STARTUP_ERROR.getErrorCode(), ServerErrorCodeEnum.BBC_STARTUP_ERROR.getShortMsg(), t);
+            return ResponseBuilder.buildFailResp(ServerErrorCodeEnum.BBC_STARTUP_ERROR, t.toString());
         }
     }
 
