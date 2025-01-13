@@ -17,6 +17,9 @@
   </p>
 </div>
 
+> [!CAUTION]
+> 本仓库已经废弃，请转到[AntChainBridge](https://github.com/AntChainOpenLabs/AntChainBridge)
+
 # 介绍
 
 AntChain Bridge 插件服务（PluginServer, PS）用于管理异构链插件、完成与中继通信的工作。
