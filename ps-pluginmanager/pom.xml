@@ -38,7 +38,15 @@
                     <groupId>cn.bitfactory</groupId>
                     <artifactId>bif-chain-sdk</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.bouncycastle</groupId>
+                    <artifactId>bcprov-jdk18on</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alipay.antchain.bridge</groupId>

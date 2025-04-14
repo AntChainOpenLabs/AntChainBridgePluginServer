@@ -19,6 +19,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bctls-jdk18on</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alipay.antchain.bridge</groupId>
             <artifactId>ps-server</artifactId>
         </dependency>
